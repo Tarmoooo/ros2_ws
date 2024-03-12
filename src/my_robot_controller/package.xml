@@ -8,7 +8,8 @@
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>
-  <depend>geometry_msg</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>turtlesim</depend>
 
   <exec_depend>ros2launch</exec_depend>
