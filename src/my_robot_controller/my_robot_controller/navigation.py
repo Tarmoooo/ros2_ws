@@ -29,7 +29,7 @@ class TurtleNavigationNode(Node):
         ############# [Initial Location] ############
         initial_pose = PoseWithCovarianceStamped()
         initial_pose.header.frame_id = 'map'
-        initial_pose.pose.pose.position.x = 0.0
+        initial_pose.pose.pose.position.x = 2.0
         initial_pose.pose.pose.position.y = 0.0
         
         qq = tf_transformations.quaternion_from_euler(0,0,0)# x, y, z or Roll Pitch Yaw
@@ -45,10 +45,11 @@ class TurtleNavigationNode(Node):
 
 
         # Initialize goal poses as dictionaries {x, y, w}
-        self.goal_poses.append({'x': 1.5, 'y': -1.0, 'yaw': -30})
-        self.goal_poses.append({'x': 2.5, 'y': 2.0, 'yaw': 60})
-        self.goal_poses.append({'x': 2.50, 'y': -1.0, 'yaw': 0})
-        self.goal_poses.append({'x': 1.50, 'y': 2.0, 'yaw': 90})
+        self.goal_poses.append({'x': 0.5, 'y': 1.8, 'yaw': 0})
+        self.goal_poses.append({'x': 3.0, 'y': 5.0, 'yaw': 90})
+        self.goal_poses.append({'x': 6.5, 'y': 4.5, 'yaw':  0})
+        
+       
         time.sleep(5)
         self.publish_goal()
 
@@ -59,7 +60,7 @@ class TurtleNavigationNode(Node):
         goal_pose = self.goal_poses[self.current_goal_index]
         distance_to_goal = (((current_pose.position.x - self.x_home) - goal_pose['x']) ** 2 +
         ((current_pose.position.y - self.y_home) - goal_pose['y']) ** 2) ** 0.5
-        if distance_to_goal < 0.3: # You can adjust this threshold
+        if distance_to_goal < 0.1: # You can adjust this threshold
             print(distance_to_goal)
             self.publish_next_goal()
 
