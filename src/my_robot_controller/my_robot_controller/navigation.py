@@ -29,7 +29,7 @@ class TurtleNavigationNode(Node):
         ############# [Initial Location] ############
         initial_pose = PoseWithCovarianceStamped()
         initial_pose.header.frame_id = 'map'
-        initial_pose.pose.pose.position.x = 2.0
+        initial_pose.pose.pose.position.x = 0.0
         initial_pose.pose.pose.position.y = 0.0
         
         qq = tf_transformations.quaternion_from_euler(0,0,0)# x, y, z or Roll Pitch Yaw
@@ -40,14 +40,16 @@ class TurtleNavigationNode(Node):
         self.initial_pose_publisher.publish(initial_pose)
         #################################
         # Identify the difference between home and map reference frame
-        self.x_home = -2.0
-        self.y_home = -0.5
+        self.x_home = 0.0
+        self.y_home = 0.0
 
 
         # Initialize goal poses as dictionaries {x, y, w}
-        self.goal_poses.append({'x': 0.5, 'y': 1.8, 'yaw': 0})
-        self.goal_poses.append({'x': 3.0, 'y': 5.0, 'yaw': 90})
-        self.goal_poses.append({'x': 6.5, 'y': 4.5, 'yaw':  0})
+        self.goal_poses.append({'x': -2.0, 'y': 2.0, 'yaw': 45})
+        self.goal_poses.append({'x': -2.0, 'y': 3.5, 'yaw': 90})
+        self.goal_poses.append({'x': 5.0, 'y': 3.5, 'yaw': -30})
+        self.goal_poses.append({'x': 5.0, 'y': 2.0, 'yaw': -90})
+        self.goal_poses.append({'x': 2.0, 'y': 2.0, 'yaw': 180})
         
        
         time.sleep(5)
@@ -83,7 +85,7 @@ class TurtleNavigationNode(Node):
         pose_msg.pose.orientation.y = qq[1]
         pose_msg.pose.orientation.z = qq[2]
         pose_msg.pose.orientation.w = qq[3]
-        pose_msg.header.frame_id = 'map'
+        pose_msg.header.frame_id = 'odom'
         self.goal_pose_publisher.publish(pose_msg)
         self.get_logger().info("Published goal: {}".format(self.current_goal_index))
 
