@@ -30,7 +30,8 @@ setup(
             "pose_sub=my_robot_controller.pose_subscriber:main",
             "controller=my_robot_controller.turtle_controller:main",
             "mapping=my_robot_controller.mapping:main",
-            'navigation = my_robot_controller.navigation:main'
+            'navigation = my_robot_controller.navigation:main',
+            "car_nav=my_robot_controller.aw_navigation:main"
         ],
     },
 )
