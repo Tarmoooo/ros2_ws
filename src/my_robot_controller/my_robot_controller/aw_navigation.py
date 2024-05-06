@@ -10,7 +10,7 @@ import tf_transformations
 import time
 import math
 
-#from tier4_system_msgs.srv import ChangeAutowareControl
+from tier4_system_msgs.srv import ChangeAutowareControl
 
 
 
@@ -29,6 +29,10 @@ class CarNavigationNode(Node):
         
         self.odom_listener = self.create_subscription(
             Odometry, "/localization/kinematic_state", self.odom_callback, 10)
+        
+        self.change_mode_srv = self.create_client(ChangeOperationMode, '/system/operation_mode/change_operation_mode')
+        self.change_mode_req = ChangeOperationMode.Request()
+                
         ############# [Initial Location] ############
         initial_pose = PoseWithCovarianceStamped()
         initial_pose.header.frame_id = 'map'
@@ -72,6 +76,10 @@ class CarNavigationNode(Node):
         else:
             self.get_logger().info("All goals explored!")
             self.stop()
+
+    def send_request(self):
+        self.change_mode_req.mode = 2  # Modify according to your service request
+        future = self.change_mode_srv.call_async(self.change_mode_req)            
 
     def publish_goal(self):
         pose_msg = PoseStamped()
