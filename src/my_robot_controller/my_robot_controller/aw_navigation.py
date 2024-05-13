@@ -10,7 +10,7 @@ import tf_transformations
 import time
 import math
 
-from tier4_system_msgs.srv import ChangeAutowareControl
+from tier4_system_msgs.srv import ChangeOperationMode
 
 
 
@@ -36,13 +36,13 @@ class CarNavigationNode(Node):
         ############# [Initial Location] ############
         initial_pose = PoseWithCovarianceStamped()
         initial_pose.header.frame_id = 'map'
-        initial_pose.pose.pose.position.x = 3742.87
-        initial_pose.pose.pose.position.y = 73684.29
-        
+        initial_pose.pose.pose.position.x = 3748.15
+        initial_pose.pose.pose.position.y = 73773.54
+                
         initial_pose.pose.pose.orientation.x = 0.0
         initial_pose.pose.pose.orientation.y = 0.0
-        initial_pose.pose.pose.orientation.z = 0.2376
-        initial_pose.pose.pose.orientation.w = 0.9713
+        initial_pose.pose.pose.orientation.z = 0.85
+        initial_pose.pose.pose.orientation.w = 0.51
         time.sleep(5)
         self.initial_pose_publisher.publish(initial_pose)
         #################################
@@ -50,6 +50,7 @@ class CarNavigationNode(Node):
 
 
         # Initialize goal poses as dictionaries {x, y, w}
+        self.goal_poses.append({'x': 3893.55, 'y': 73763.04, 'xx': 0.0,'yy': 0.0,'zz': 0.24,'w':0.97})
         self.goal_poses.append({'x': 3815.02, 'y': 73806.22,'xx':0.0,'yy':0.0,'zz':-0.52,'w':0.85})
 
         
@@ -93,6 +94,8 @@ class CarNavigationNode(Node):
         pose_msg.header.frame_id = 'map'
         self.goal_pose_publisher.publish(pose_msg)
         self.get_logger().info("Published goal: {}".format(self.current_goal_index))
+        time.sleep(3)
+        self.send_request()        
 
     def stop(self):
         self.get_logger().info("stopping the node")
